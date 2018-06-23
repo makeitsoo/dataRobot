@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Survey</title>
+    <!-- Latest compiled and minified CSS & JS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://bootswatch.com/3/cyborg/bootstrap.css">
+    <!-- Font Awesome Glyphicons -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+    <!-- Chosen -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.5.1/chosen.jquery.min.js"></script>
+
+  </head>
+  <body>
+    <div class="container" >
+      <div class='jumbotron' align='center'>
+        <h1> robotMonkey </h1>
+        <hr>
+        <h4> A sophisticated, interactive AI platform designed to administer surveys, record information and crunch data -- autonomously.. </h4>
+      </div>
+
+      <h4 align='center'><strong>Question 1</strong></h4>
+      <!-- <h4>What's your name?</h4> -->
+      <div class="form-group has-success">
+        <input type="text" value="Enter your question here" class="form-control is-valid" id="q1">
+        <div class="valid-feedback"></div>
+      </div>
+
+      <h4 align='center'><strong>Question 2</strong></h4>
+      <!-- <h4>How old are you?</h4> -->
+      <div class="form-group has-success">
+        <input type="text" value="Enter another question" class="form-control is-valid" id="q2">
+        <div class="valid-feedback"></div>
+      </div>
+
+      <h4 align='center'><strong>Question 3</strong></h4>
+      <!-- <h4>What's your favorite color?</h4> -->
+      <div class="form-group has-success">
+        <input type="text" value="Add one more question here" class="form-control is-valid" id="q3">
+        <div class="valid-feedback"></div>
+      </div>
+
+      <h4 align='center'><strong>Question 4</strong></h4>
+      <!-- <h4>What would you do if you won the lottery?</h4> -->
+      <div class="form-group has-success">
+        <input type="text" value="Bet you know what to do with this space" class="form-control is-valid" id="q4">
+        <div class="valid-feedback"></div>
+      </div>
+
+      <h4 align='center'><strong>Question 5</strong></h4>
+      <!-- <h4>Where were you and what were you doing last night between 10:15 and 11:00 pm?</h4> -->
+      <div class="form-group has-success">
+        <input type="text" value="Not done? Add another question here" class="form-control is-valid" id="q5">
+        <div class="valid-feedback"></div>
+      </div>
+
+      <br>
+      <p align='center'><a href="./more-questions">+ Add More Questions</a></p>
+
+      <hr>
+
+      <br>
+
+      <h4 align='center'><strong>About You</strong></h4>
+      <!-- <h4>Name</h4> -->
+      <br>
+      <label for="name">Name</label>
+      <input type="text" id="name" class="form-control" required>
+
+      <!-- <h4>Email</h4> -->
+      <br>
+      <label for="email">Email</label>
+      <input type="text" id="email" class="form-control" required>
+
+      <!-- <h4>Give us a brief description of the reason for your survey</h4> -->
+      <br>
+      <label for="description">Give us a brief description of the reason for your survey.</label>
+      <input type="text" id="description" class="form-control" required>
+
+      <br>
+      <label for="rating">We're just getting started! On a scale from 5-1, how likely are you to visit us again?</label>
+      <select class="form-control" id="rating">
+        <option value=""></option>
+        <option value="5">5 - Hell yes! robotMonkey rocks!</option>
+        <option value="4">4 - Yeah. Not too shaby!</option>
+        <option value="3">3 - Good start, but needs some work.</option>
+        <option value="2">2 - Meh.. </option>
+        <option value="1">1 - Absolutely not. robotMonkey is stupid.</option>
+      </select>
+
+      <br>
+      <br>
+
+      <p align='center'>Thanks for checking out robotMonkey!</p>
+
+      <!-- Submit Button -->
+      <button type="submit" class="btn btn-primary btn-lg btn-block" id="submit"><i class="fa fa-check-circle" aria-hidden="true"></i>
+       Submit</button>
+
+      <hr>
+
+      <footer class="footer">
+        <div class="container" align='center'>
+          <p><a href="/api/friends">robotMonkey API</a> | <a href="https://github.com/makeitsoo/dataRobot">GitHub Repo</a></p>
+        </div>
+      </footer>
+    </div>
+
+    <!-- Modal -->
+    <div id="results-modal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h2 class="modal-title"><strong>Best Match</strong></h2>
+          </div>
+          <div class="modal-body">
+            <h2 id="matchNameforModal"></h2>
+            <img id="modalPhoto" src="" alt="">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      // Chosen CSS
+      var config = {
+        ".chosen-select": {},
+        ".chosen-select-deselect": {
+          allow_single_deselect: true
+        },
+        ".chosen-select-no-single": {
+          disable_search_threshold: 10
+        },
+        ".chosen-select-no-results": {
+          no_results_text: "Oops, nothing found!"
+        },
+        ".chosen-select-width": {
+          width: "95%"
+        }
+      };
+
+      for (var selector in config) {
+        $(selector).chosen(config[selector]);
+      }
+
+      // Capture the form inputs
+      $("#submit").on("click", function(event) {
+        event.preventDefault();
+
+        // Form validation
+        function validateForm() {
+          var isValid = true;
+          $(".form-control").each(function() {
+            if ($(this).val() === "") {
+              isValid = false;
+            }
+          });
+
+          $(".chosen-select").each(function() {
+
+            if ($(this).val() === "") {
+              isValid = false;
+            }
+          });
+          return isValid;
+        }
+
+        // If all required fields are filled
+        if (validateForm()) {
+
+          function survey() {
+            var survey = [];
+            for (i = 1; i <= 10; i++) {
+                var ans = parseInt($("#q" + i).val().trim());
+                if (ans == NaN) {
+                    modal.style.display = "none";
+                    return;
+                }
+                survey.push(ans);
+            }
+            return survey;
+          }
+          // Create an object for the user"s data
+          var userData = {
+            name: $("#name").val().trim(),
+            photo: $("#photo").val().trim(),
+            scores: survey()
+          };
+
+          console.log("User Info: ", userData);
+
+          // AJAX post the data to the friends API.
+          $.post("/api/friends", userData, function(data) {
+            console.log("Best Friend Info: ", data);
+
+            // Grab the result from the AJAX post so that the best match's name and photo are displayed.
+            $("#matchNameforModal").text(data.newFriendName);
+            $("#modalPhoto").attr("src", data.newFriendPhoto);
+            $("#modalPhoto").attr("height", '400px');
+            $("#modalPhoto").attr("width", '550px');
+            // Show the modal with the best match
+            $("#results-modal").modal("toggle");
+
+          });
+          // clear form 
+          $('#name').val("");
+          $('#photo').val("");
+          for (i = 1; i <= 10; i++) {
+              $('#q' + i).val("");
+          }
+        } else {
+          alert("Please fill out all fields before submitting!");
+        }
+      });
+    </script>
+
+  </body>
+
+</html>
+
